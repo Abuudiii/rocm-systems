@@ -56,6 +56,14 @@ module roctx
     end function
   end interface
 
+  interface roctxRangeGetDepth
+    function roctxRangeGetDepth_() bind(c, name="roctxRangeGetDepth")
+      import
+      implicit none
+      integer(c_int) :: roctxRangeGetDepth_
+    end function
+  end interface
+
   interface roctxRangeStart
     function roctxRangeStart_(message) bind(c, name="roctxRangeStartA")
       import
