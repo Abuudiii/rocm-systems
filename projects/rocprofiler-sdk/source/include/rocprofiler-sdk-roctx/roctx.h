@@ -131,7 +131,7 @@ roctxRangePushA(const char* message) ROCTX_API ROCTX_NONNULL(1);
  * negative value if there was no nested range active.
  */
 int
-roctxRangePop() ROCTX_API;
+roctxRangePop( ROCTX_API;
 
 /**
  * @brief Starts a process range.
