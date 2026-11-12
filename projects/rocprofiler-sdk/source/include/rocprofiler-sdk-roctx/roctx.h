@@ -134,6 +134,14 @@ int
 roctxRangePop() ROCTX_API;
 
 /**
+ * Query the current nested range depth.
+ *
+ * @return Returns the number of nested ranges currently active.
+ */
+int
+roctxRangeGetDepth() ROCTX_API;
+
+/**
  * @brief Starts a process range.
  *
  * Start/stop ranges can be started and stopped in different threads. Each
