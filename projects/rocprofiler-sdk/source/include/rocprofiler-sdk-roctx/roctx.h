@@ -134,6 +134,14 @@ int
 roctxRangePop() ROCTX_API;
 
 /**
+ * @brief Get the number of active nested ranges on the current CPU thread.
+ *
+ * @return The number of active nested ranges.
+ */
+int
+roctxE2eGetRangeDepth(void) ROCTX_API;
+
+/**
  * @brief Starts a process range.
  *
  * Start/stop ranges can be started and stopped in different threads. Each
