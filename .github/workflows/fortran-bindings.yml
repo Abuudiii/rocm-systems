@@ -14,15 +14,10 @@ on:
         description: Generator library name (hip, roctx); the binding is bindings/fortran/<lib>/
         required: true
         type: string
-    secrets:
-      # Only the schedule/workflow_dispatch path uses them, to open the PR.
-      APP_ID:
-        required: false
-      APP_PRIVATE_KEY:
-        required: false
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 env:
   # Bump on purpose: a generator change must not fail unrelated header PRs.
@@ -103,21 +98,12 @@ jobs:
             echo "::notice::The binding changes with these headers; the daily fortran-bindings run will open a PR to regenerate it."
           fi
 
-      - name: Get the bot token
-        id: app-token
-        if: github.event_name != 'pull_request' && github.repository == 'ROCm/rocm-systems'
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-        with:
-          # client-id also takes the numeric App ID stored in APP_ID.
-          client-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-
       - name: Open or update the regeneration PR
-        if: steps.app-token.outcome == 'success'
+        if: github.event_name != 'pull_request'
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           path: rocm-systems
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: fortran-bindings/regenerate-${{ inputs.lib }}
           base: develop
           add-paths: bindings/fortran/${{ inputs.lib }}/*.F90
